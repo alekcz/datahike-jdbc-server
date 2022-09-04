@@ -2,8 +2,7 @@
     <img alt="Datahike" src="https://raw.githubusercontent.com/replikativ/datahike/main/doc/assets/datahike-logo.svg" height="128em">
 </p>
 
-[![CI](https://github.com/alekcz/datahike-jdbc-server/actions/workflows/main.yml/badge.svg)](https://github.com/alekcz/datahike-jdbc-server/actions/workflows/main.yml) 
-<!-- [![codecov](https://codecov.io/gh/alekcz/datahike-jdbc-server/branch/main/graph/badge.svg?token=UkLQlpnfbp)](https://codecov.io/gh/alekcz/datahike-jdbc-server)    -->
+[![CI](https://github.com/alekcz/datahike-jdbc-server/actions/workflows/main.yml/badge.svg)](https://github.com/alekcz/datahike-jdbc-server/actions/workflows/main.yml) [![codecov](https://codecov.io/gh/alekcz/datahike-jdbc-server/branch/main/graph/badge.svg?token=UkLQlpnfbp)](https://codecov.io/gh/alekcz/datahike-jdbc-server)   
 
 ## Deploy JDBC Server
 
