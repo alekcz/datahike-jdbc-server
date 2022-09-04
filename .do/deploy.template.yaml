@@ -28,9 +28,9 @@ spec:
     - key: DATAHIKE_JDBC_PASSWORD
       scope: RUN_TIME
       value: password
-    - key: FIRETOMIC_DEV_MODE
+    - key: DATAHIKE_JDBC_DEV_MODE
       scope: RUN_TIME
       value: make-this-true-for-testing
-    - key: FIRETOMIC_TOKEN
+    - key: DATAHIKE_JDBC_TOKEN
       scope: RUN_TIME
       value: a-super-secure-long-and-unguessable-token
