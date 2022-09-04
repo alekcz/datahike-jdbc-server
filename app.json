@@ -1,0 +1,13 @@
+{
+  "name": "Datahike JDBC Server",
+  "description": "A datalog database server using Datahike and JDBC",
+  "repository": "https://github.com/alekcz/datahike-jdbc-server",
+  "logo": "https://raw.githubusercontent.com/replikativ/datahike/main/doc/assets/datahike-logo.svg",
+  "keywords": ["datahike","datahike-server","datalog", "clojure", "jdbc", "datahike-jdbc"],
+  "stack": "container",
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  }
+}

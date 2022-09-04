@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+trap teardown EXIT
+
+function setup() {
+    mv resources/config.edn resources/config.edn.tmp &> /dev/null | true
+}
+
+function test_auth() {
+    cp -av test/datahike_server/resources/config.edn resources/config.edn
+    ./bin/kaocha --focus datahike-server.integration-test
+}
+function test_middleware() {
+    cp -av test/datahike_server/resources/config.edn resources/config.edn
+    ./bin/kaocha --focus datahike-server.middleware-test
+}
+function test_dev_mode() {
+    ./bin/kaocha --focus datahike-server.setup-test
+}
+# customization start
+function test_jdbc() {
+    ./bin/kaocha --focus datahike-server.jdbc-test
+}
+# customization end
+function teardown() {
+    mv resources/config.edn.tmp resources/config.edn &> /dev/null | rm resources/config.edn
+}
+
+setup
+test_auth
+test_middleware
+test_dev_mode
+# customization start
+test_jdbc
+# customization start

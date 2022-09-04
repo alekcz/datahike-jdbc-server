@@ -1,0 +1,36 @@
+spec:
+  name: datahike-jdbc-server
+  services:
+  - name: datahike-jdbc-server
+    git:
+      branch: main
+      repo_clone_url: https://github.com/alekcz/datahike-jdbc-server.git
+    dockerfile_path: /Dockerfile
+    envs:
+    - key: DATAHIKE_JDBC_LOG_LEVEL
+      scope: RUN_TIME
+      value: warn
+    - key: DATAHIKE_JDBC_DBTYPE
+      scope: RUN_TIME
+      value: firetomic-1
+    - key: DATAHIKE_JDBC_DBTYPE
+      scope: RUN_TIME
+      value: postgresql
+    - key: DATAHIKE_JDBC_HOST
+      scope: RUN_TIME
+      value: localhost
+    - key: DATAHIKE_JDBC_DBNAME
+      scope: RUN_TIME
+      value: datahike
+    - key: DATAHIKE_JDBC_USER
+      scope: RUN_TIME
+      value: datahike
+    - key: DATAHIKE_JDBC_PASSWORD
+      scope: RUN_TIME
+      value: password
+    - key: FIRETOMIC_DEV_MODE
+      scope: RUN_TIME
+      value: make-this-true-for-testing
+    - key: FIRETOMIC_TOKEN
+      scope: RUN_TIME
+      value: a-super-secure-long-and-unguessable-token

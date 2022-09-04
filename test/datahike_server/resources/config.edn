@@ -1,0 +1,17 @@
+{:databases [{:store {:backend :jdbc}
+              :schema-flexibility :read
+              :keep-history? false
+              :name "sessions"}
+             {:store {:backend :jdbc}
+              :name "users"
+              :keep-history? true
+              :schema-flexibility :write}]
+ :server {:port  3333
+          :join? false
+          :loglevel :debug
+          :dbtype "postgresql"
+          :host "localhost"
+          :dbname "datahike"
+          :user "datahike"
+          :password "password"
+          :token :neverusethisaspassword}}
