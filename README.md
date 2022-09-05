@@ -12,7 +12,7 @@ We both get credits for DigitalOcean if you end using their services so be a mat
 
 Or you could deploy to Heroku  
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/alekcz/datahike-jdbc-server/tree/refactor)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/alekcz/datahike-jdbc-server/tree/main)
 
 ## Build Datahike JDBC Server
 
