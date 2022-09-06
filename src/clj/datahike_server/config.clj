@@ -23,9 +23,10 @@
 (s/def ::dbname string?)
 (s/def ::user string?)
 (s/def ::password string?)
+(s/def ::max-body integer?)
 
 
-(s/def ::server-config (s/keys :req-un [::port ::loglevel ::dbtype ::host ::dbname ::user ::password]
+(s/def ::server-config (s/keys :req-un [::port ::loglevel ::dbtype ::host ::dbname ::user ::password ::max-body]
                                :opt-un [::dev-mode ::token ::join?]))
 
 ;; customization end
@@ -54,7 +55,8 @@
                         :user (:datahike-jdbc-user env "datahike")
                         :password (:datahike-jdbc-password env "password")
                         :cache-size (int-from-env :datahike-jdbc-cache 100000)
-                        :dev-mode (bool-from-env :datahike-jdbc-dev-mode true)}
+                        :dev-mode (bool-from-env :datahike-jdbc-dev-mode true)
+                        :max-body (* (int-from-env :datahike-jdbc-max-body 32) 1024 1024)}
                        ;; customization end
                        (:server arg-config))
                       ;; customization start                                             
