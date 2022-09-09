@@ -21,7 +21,12 @@ function test_dev_mode() {
 }
 # customization start
 function test_jdbc() {
+    cp -av test/datahike_server/resources/config.edn resources/config.edn
     ./bin/kaocha --focus datahike-server.jdbc-test
+}
+function test_jdbc_persist() {
+    cp -av test/datahike_server/resources/config.edn resources/config.edn
+    ./bin/kaocha --focus datahike-server.jdbc-persist-test
 }
 # customization end
 function teardown() {
@@ -32,6 +37,7 @@ setup
 test_auth
 test_middleware
 test_dev_mode
-# customization start
+customization start
 test_jdbc
+test_jdbc_persist
 # customization end

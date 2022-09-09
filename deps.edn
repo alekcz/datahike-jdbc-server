@@ -1,5 +1,5 @@
 {:deps {org.clojure/clojure     {:mvn/version "1.11.1"}
-        org.alekcz/datahike-jdbc{:mvn/version "0.5.1510-20220905.221746-8"}
+        org.alekcz/datahike-jdbc{:mvn/version "0.5.1510-20220908.231414-9"}
         http-kit/http-kit       {:mvn/version "2.6.0"}
         buddy/buddy-auth        {:mvn/version "3.0.323"}
         ring/ring-core          {:mvn/version "1.9.5"}

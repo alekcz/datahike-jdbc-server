@@ -19,15 +19,17 @@
 
 ;; customization start
 (s/def ::dbtype string?)
+(s/def ::jdbc-url (s/nilable string?))
 (s/def ::host string?)
 (s/def ::dbname string?)
 (s/def ::user string?)
 (s/def ::password string?)
 (s/def ::max-body integer?)
+(s/def ::persistent-databases string?)
 
 
 (s/def ::server-config (s/keys :req-un [::port ::loglevel ::dbtype ::host ::dbname ::user ::password ::max-body]
-                               :opt-un [::dev-mode ::token ::join?]))
+                               :opt-un [::dev-mode ::token ::join? ::persistent-databases ::jdbc-url]))
 
 ;; customization end
 
@@ -51,9 +53,11 @@
                         :loglevel (keyword (:datahike-jdbc-log-level env :warn))
                         :dbtype (:datahike-jdbc-dbtype env "postgresql")
                         :host (:datahike-jdbc-host env "localhost")
+                        :jdbc-url (:datahike-jdbc-url env)
                         :dbname (:datahike-jdbc-dbname env "datahike")
                         :user (:datahike-jdbc-user env "datahike")
                         :password (:datahike-jdbc-password env "password")
+                        :persistent-databases (:datahike-jdbc-persistent-databases env "")
                         :cache-size (int-from-env :datahike-jdbc-cache 100000)
                         :dev-mode (bool-from-env :datahike-jdbc-dev-mode true)
                         :max-body (* (int-from-env :datahike-jdbc-max-body 32) 1024 1024)}
