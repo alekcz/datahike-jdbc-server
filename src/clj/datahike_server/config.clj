@@ -49,7 +49,7 @@
                      (string? config) load-config-file)
         server-config (merge
                        ;; customization start
-                       {:port (int-from-env :port (int-from-env :datahike-jdbc-port 4000))
+                       {:port (int-from-env :datahike-jdbc-port (int-from-env :port 4000))
                         :loglevel (keyword (:datahike-jdbc-log-level env :warn))
                         :dbtype (:datahike-jdbc-dbtype env "postgresql")
                         :host (:datahike-jdbc-host env "localhost")

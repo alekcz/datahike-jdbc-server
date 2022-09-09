@@ -78,19 +78,23 @@ read via the [environ library by weavejester](https://github.com/weavejester/env
 Please provide the logging level without colon. Beware that a configuration file
 overwrites the values from environment and properties.
 
-envvar                        | default
-------------------------------|-------------
-DATAHIKE_JDBC_PORT            | PORT || 4000
-DATAHIKE_JDBC_LOG_LEVEL       | warn
-DATAHIKE_JDBC_DEV_MODE        | false
-DATAHIKE_JDBC_TOKEN           | --
-DATAHIKE_JDBC_DBTYPE          | postgresql
-DATAHIKE_JDBC_HOST            | localhost
-DATAHIKE_JDBC_DBNAME          | datahike
-DATAHIKE_JDBC_USER            | datahike
-DATAHIKE_JDBC_PASSWORD        | password
-DATAHIKE_JDBC_CACHE           | 100000
+envvar                              | default
+------------------------------------|-------------
+DATAHIKE_JDBC_PORT                  | PORT || 4000
+DATAHIKE_JDBC_LOG_LEVEL             | warn
+DATAHIKE_JDBC_DEV_MODE              | false
+DATAHIKE_JDBC_TOKEN                 | --
+DATAHIKE_JDBC_DBTYPE                | postgresql
+DATAHIKE_JDBC_HOST                  | localhost
+DATAHIKE_JDBC_DBNAME                | datahike
+DATAHIKE_JDBC_USER                  | datahike
+DATAHIKE_JDBC_PASSWORD              | password
+DATAHIKE_JDBC_CACHE                 | 100000
+DATAHIKE_JDBC_PERSISTENT_DATABASES  | --
 
+
+Persistent Databases is comma separated list of database that should be loaded on server boot if they exist.   
+ 
 ### Authentication
 
 You can authenticate to Datahike JDBC Server with a token specified via configuration. Please

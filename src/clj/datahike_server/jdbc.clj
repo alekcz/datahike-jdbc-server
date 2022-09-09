@@ -27,14 +27,15 @@
       (for [cfg databases]
         (if (-> cfg :store :backend (not= :jdbc))
             cfg 
-            (assoc cfg :store  {:backend :jdbc 
+            (-> (assoc cfg :cache-size (-> server :cache-size))
+                (assoc :store  {:backend :jdbc 
                                 :dbtype (-> server :dbtype)
                                 :jdbcUrl (-> server :jdbc-url)
                                 :host (-> server :host)
                                 :user (-> server :user)
                                 :password (-> server :password)
                                 :dbname (-> server :dbname)
-                                :table (-> cfg :name)}))))))
+                                :table (-> cfg :name)})))))))
 
 (defn connect [config]
   (let [persistent (-> config :server :persistent-databases)
@@ -48,7 +49,8 @@
                                   :password (-> config :server :password)
                                   :dbname (-> config :server :dbname)
                                   :table n} 
-                         :name n})
+                         :name n
+                         :cache-size (-> config :server :cache-size)})
         valid-dbs (filter d/database-exists? initial-dbs)
         final-dbs (-> config :databases (concat valid-dbs))
         final-config (assoc config :databases final-dbs)]

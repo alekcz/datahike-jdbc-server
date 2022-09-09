@@ -78,7 +78,6 @@
       (handler request)
       (catch ExceptionInfo e
         (let [cause (:cause (.getData e))]
-          (.printStackTrace e)
           {:status (cause->status-code cause)
            :body {:message (.getMessage e)}})))))
 
@@ -87,8 +86,7 @@
   (fn [request]
     (try
       (handler request)
-      (catch Exception e
-        (.printStackTrace e)
+      (catch Exception _e
         {:status 500
          :body {:message "Unexpected internal server error."}}))))
 

@@ -5,7 +5,9 @@
             [datahike-server.jdbc :as j]
             [datahike-server.middleware :as middleware]
             [clojure.spec.alpha :as s]
-            [spec-tools.core :as st]))
+            [spec-tools.core :as st]
+            ;; [org.httpkit.client :as http]
+            [clojure.string :as str]))
 
 (s/def ::name string?)
 (s/def ::keep-history? boolean?)
@@ -43,6 +45,29 @@
       (mount/start))
     (success {:name (:name body) :disconnected true :deleted (some? status)})))
 
+;; (defn build-url [host path query-string]
+;;   (let [url (.toString (java.net.URL. (java.net.URL. host) path))]
+;;     (if (not-empty query-string)
+;;       (str url "?" query-string)
+;;       url)))
+
+;; (defn host-from-url [url]
+;;   (when url
+;;     (str/replace url #"http://" "")))
+
+;; (defn proxy-request [request]
+;;   (let [host "http://localhost:8080"
+;;         stripped-headers (dissoc (:headers request) "content-length")
+;;         replaced-host-headers (assoc stripped-headers "host" (host-from-url host))
+;;         res (if host
+;;               (select-keys  @(http/request {:url (build-url host (:uri request) (:query-string request))
+;;                                             :method           (:request-method request)
+;;                                             :body             (:body request)
+;;                                             :headers          replaced-host-headers})
+;;                             [:status :headers :body])
+;;               {:status 200 :body "haha"})]
+;;     res))
+
 (def routes
   [["/ping"
     {:get {:no-doc  true
@@ -59,6 +84,12 @@
                                               :name "creation configuration"})}
                :middleware [middleware/token-auth middleware/auth]
                :handler    create-database}}]
+  ;;  ["/metrics"
+  ;;   {:swagger {:tags ["API"]}
+  ;;    :get    {:operationId "METRICS"
+  ;;              :summary "Reverse proxy to metrics"
+  ;;              :handler  proxy-request}}]
+
    ["/delete-database"
     {:swagger {:tags ["API"]}
      :post    {:operationId "DeleteDatabase"
