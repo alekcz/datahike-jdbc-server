@@ -119,7 +119,7 @@
                             :header ::conn-header}
                :middleware [middleware/token-auth middleware/auth middleware/time-api-call]
                :handler    (fn [req] 
-                            (prometheus/inc metrics/registry :datahike-server/transact-total)
+                            (prometheus/inc metrics/registry :app/dh-transact-total)
                             (h/transact req))}}]
 
    ["/db"
@@ -139,7 +139,7 @@
                             :header ::db-header}
                :middleware [middleware/token-auth middleware/auth middleware/time-api-call]
                :handler    (fn [req] 
-                            (prometheus/inc metrics/registry :datahike-server/query-total)
+                            (prometheus/inc metrics/registry :app/dh-query-total)
                             (h/q req))}}]
 
    ["/pull"
@@ -151,7 +151,7 @@
                             :header ::db-header}
                :middleware [middleware/token-auth middleware/auth middleware/time-api-call]
                :handler    (fn [req] 
-                            (prometheus/inc metrics/registry :datahike-server/pull-total)
+                            (prometheus/inc metrics/registry :app/dh-pull-total)
                             (h/pull req))}}]
 
    ["/pull-many"
@@ -163,7 +163,7 @@
                             :header ::db-header}
                :middleware [middleware/token-auth middleware/auth middleware/time-api-call]
                :handler    (fn [req] 
-                            (prometheus/inc metrics/registry :datahike-server/pull-many-total)
+                            (prometheus/inc metrics/registry :app/dh-pull-many-total)
                             (h/pull-many req))}}]
 
    ["/datoms"

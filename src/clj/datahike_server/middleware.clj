@@ -100,10 +100,10 @@
           response (handler request)
           duration (- (System/currentTimeMillis) start)]
       (case (:uri request)
-        "/q" (prometheus/observe metrics/registry :datahike-server/query-ms duration)
-        "/pull"(prometheus/observe metrics/registry :datahike-server/pull-ms duration)
-        "/pull-many" (prometheus/observe metrics/registry :datahike-server/pull-many-ms duration)
-        "/transact" (prometheus/observe metrics/registry :datahike-server/transact-ms duration))
+        "/q" (prometheus/observe metrics/registry :app/dh-query-ms duration)
+        "/pull"(prometheus/observe metrics/registry :app/dh-pull-ms duration)
+        "/pull-many" (prometheus/observe metrics/registry :app/dh-pull-many-ms duration)
+        "/transact" (prometheus/observe metrics/registry :app/dh-transact-ms duration))
       (log/info "Time elapsed: " (- (System/currentTimeMillis) start) " ms")
       response)))
 
