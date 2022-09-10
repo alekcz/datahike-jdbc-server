@@ -20,12 +20,24 @@
    [clojure.spec.alpha :as s]
    [taoensso.timbre :as log]
    [mount.core :refer [defstate]]
+   [clojure.pprint :refer [pprint]]
+   [spec-tools.core :as st]
    ;; customization start
    [org.httpkit.server :refer [run-server server-stop!]]       
-   ;; customization end
-   [clojure.pprint :refer [pprint]]
-   [spec-tools.core :as st]))
+   [steffan-westcott.clj-otel.api.trace.http :as trace-http]
+   [steffan-westcott.clj-otel.exporter.otlp.grpc.trace :as otlp-grpc-trace]
+   [steffan-westcott.clj-otel.resource.resources :as res]
+   [steffan-westcott.clj-otel.sdk.otel-sdk :as sdk]
+   [iapetos.collector.jvm :as jvm]
+   [iapetos.collector.ring :as iapetosring]
+   [iapetos.core :as prometheus]))
 
+(defonce registry
+  (-> (prometheus/collector-registry)
+      (jvm/initialize)
+      (iapetosring/initialize)))
+;; customization end
+   
 (s/def ::entity any?)
 (s/def ::tx-data (s/coll-of ::entity))
 (s/def ::tx-meta (s/coll-of ::entity))
@@ -263,15 +275,38 @@
                    :operationsSorter "alpha"}})
         (ring/create-default-handler)))
       (wrap-cors :access-control-allow-origin [#"http://localhost" #"http://localhost:8080" #"http://localhost:4000"]
-                 :access-control-allow-methods [:get :put :post :delete])))
+                 :access-control-allow-methods [:get :put :post :delete])
+      ;; customization start 
+      (trace-http/wrap-server-span)
+      (iapetosring/wrap-metrics registry {:path "/metrics"})))
+      ;; customization end
+       
+;; customization start 
+(defn init-otel! []
+  (sdk/init-otel-sdk!
+    "datahike-jdbc-server"
+    {:resources [(res/host-resource)
+                 (res/os-resource)
+                 (res/process-resource)
+                 (res/process-runtime-resource)]
+     :tracer-provider
+       {:span-processors
+         [{:exporters [(otlp-grpc-trace/span-exporter)]}]}}))
 
-(defn start-server [config]
-  ;; customization start     
-  (run-server app (merge {:legacy-return-value? false} (:server config))))
-  ;; customization start     
+(defn close-otel! []
+  (sdk/close-otel-sdk!))
+       
+(defn start-server [config]  
+    (run-server app (merge {:legacy-return-value? false} (:server config))))
+
        
 (defstate server
   :start (do
+           (init-otel!)
            (log/debug "Starting server")
            (start-server config/config))
-  :stop (server-stop! server))
+  :stop (do
+          (server-stop! server)
+          (close-otel!)))
+
+;; customization end
