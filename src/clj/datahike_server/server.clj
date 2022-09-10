@@ -24,18 +24,18 @@
    [spec-tools.core :as st]
    ;; customization start
    [org.httpkit.server :refer [run-server server-stop!]]       
-   [steffan-westcott.clj-otel.api.trace.http :as trace-http]
-   [steffan-westcott.clj-otel.exporter.otlp.grpc.trace :as otlp-grpc-trace]
-   [steffan-westcott.clj-otel.resource.resources :as res]
-   [steffan-westcott.clj-otel.sdk.otel-sdk :as sdk]
    [iapetos.collector.jvm :as jvm]
-   [iapetos.collector.ring :as iapetosring]
+   [iapetos.collector.ring :as iapetos-ring]
    [iapetos.core :as prometheus]))
 
 (defonce registry
   (-> (prometheus/collector-registry)
+      (prometheus/register
+       (prometheus/histogram :app/duration-seconds)
+       (prometheus/gauge     :app/active-users-total)
+       (prometheus/counter   :app/query-total))
       (jvm/initialize)
-      (iapetosring/initialize)))
+      (iapetos-ring/initialize)))
 ;; customization end
    
 (s/def ::entity any?)
@@ -145,7 +145,9 @@
                                               :name "query"})
                             :header ::db-header}
                :middleware [middleware/token-auth middleware/auth middleware/time-api-call]
-               :handler    h/q}}]
+               :handler    (fn [req] 
+                            (prometheus/inc registry :app/query-total)
+                            (h/q req))}}]
 
    ["/pull"
     {:swagger {:tags ["API"]}
@@ -277,24 +279,10 @@
       (wrap-cors :access-control-allow-origin [#"http://localhost" #"http://localhost:8080" #"http://localhost:4000"]
                  :access-control-allow-methods [:get :put :post :delete])
       ;; customization start 
-      (trace-http/wrap-server-span)
-      (iapetosring/wrap-metrics registry {:path "/metrics"})))
+      (iapetos-ring/wrap-metrics registry {:path "/metrics"})))
       ;; customization end
        
 ;; customization start 
-(defn init-otel! []
-  (sdk/init-otel-sdk!
-    "datahike-jdbc-server"
-    {:resources [(res/host-resource)
-                 (res/os-resource)
-                 (res/process-resource)
-                 (res/process-runtime-resource)]
-     :tracer-provider
-       {:span-processors
-         [{:exporters [(otlp-grpc-trace/span-exporter)]}]}}))
-
-(defn close-otel! []
-  (sdk/close-otel-sdk!))
        
 (defn start-server [config]  
     (run-server app (merge {:legacy-return-value? false} (:server config))))
@@ -302,11 +290,7 @@
        
 (defstate server
   :start (do
-           (init-otel!)
            (log/debug "Starting server")
            (start-server config/config))
-  :stop (do
-          (server-stop! server)
-          (close-otel!)))
-
+  :stop   (server-stop! server))
 ;; customization end
