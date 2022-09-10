@@ -24,19 +24,10 @@
    [spec-tools.core :as st]
    ;; customization start
    [org.httpkit.server :refer [run-server server-stop!]]       
-   [iapetos.collector.jvm :as jvm]
    [iapetos.collector.ring :as iapetos-ring]
-   [iapetos.core :as prometheus]))
-
-(defonce registry
-  (-> (prometheus/collector-registry)
-      (prometheus/register
-       (prometheus/histogram :app/duration-seconds)
-       (prometheus/gauge     :app/active-users-total)
-       (prometheus/counter   :app/query-total))
-      (jvm/initialize)
-      (iapetos-ring/initialize)))
-;; customization end
+   [iapetos.core :as prometheus]
+   [datahike-server.metrics :as metrics]))
+   ;; customization end
    
 (s/def ::entity any?)
 (s/def ::tx-data (s/coll-of ::entity))
@@ -127,7 +118,9 @@
                                               :name "transactions"})
                             :header ::conn-header}
                :middleware [middleware/token-auth middleware/auth middleware/time-api-call]
-               :handler    h/transact}}]
+               :handler    (fn [req] 
+                            (prometheus/inc metrics/registry :datahike-server/transact-total)
+                            (h/transact req))}}]
 
    ["/db"
     {:swagger {:tags ["API"]}
@@ -146,7 +139,7 @@
                             :header ::db-header}
                :middleware [middleware/token-auth middleware/auth middleware/time-api-call]
                :handler    (fn [req] 
-                            (prometheus/inc registry :app/query-total)
+                            (prometheus/inc metrics/registry :datahike-server/query-total)
                             (h/q req))}}]
 
    ["/pull"
@@ -156,8 +149,10 @@
                :parameters {:body (st/spec {:spec ::pull-request
                                             :name "pull"})
                             :header ::db-header}
-               :middleware [middleware/token-auth middleware/auth]
-               :handler    h/pull}}]
+               :middleware [middleware/token-auth middleware/auth middleware/time-api-call]
+               :handler    (fn [req] 
+                            (prometheus/inc metrics/registry :datahike-server/pull-total)
+                            (h/pull req))}}]
 
    ["/pull-many"
     {:swagger {:tags ["API"]}
@@ -166,8 +161,10 @@
                :parameters {:body (st/spec {:spec ::pull-many-request
                                             :name "pull-many"})
                             :header ::db-header}
-               :middleware [middleware/token-auth middleware/auth]
-               :handler    h/pull-many}}]
+               :middleware [middleware/token-auth middleware/auth middleware/time-api-call]
+               :handler    (fn [req] 
+                            (prometheus/inc metrics/registry :datahike-server/pull-many-total)
+                            (h/pull-many req))}}]
 
    ["/datoms"
     {:swagger {:tags ["API"]}
@@ -279,7 +276,7 @@
       (wrap-cors :access-control-allow-origin [#"http://localhost" #"http://localhost:8080" #"http://localhost:4000"]
                  :access-control-allow-methods [:get :put :post :delete])
       ;; customization start 
-      (iapetos-ring/wrap-metrics registry {:path "/metrics"})))
+      (iapetos-ring/wrap-metrics metrics/registry {:path "/metrics"})))
       ;; customization end
        
 ;; customization start 
