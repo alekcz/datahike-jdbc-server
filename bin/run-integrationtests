@@ -37,7 +37,7 @@ setup
 test_auth
 test_middleware
 test_dev_mode
-customization start
+#customization start
 test_jdbc
 test_jdbc_persist
 # customization end
