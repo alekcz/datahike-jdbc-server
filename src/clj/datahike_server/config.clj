@@ -19,13 +19,13 @@
 
 ;; customization start
 (s/def ::dbtype string?)
-(s/def ::dbport integer?)
+(s/def ::dbport int?)
 (s/def ::jdbc-url (s/nilable string?))
 (s/def ::host string?)
 (s/def ::dbname string?)
 (s/def ::user string?)
 (s/def ::password string?)
-(s/def ::max-body integer?)
+(s/def ::max-body int?)
 (s/def ::persistent-databases string?)
 
 
