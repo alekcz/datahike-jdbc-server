@@ -10,6 +10,7 @@
           :join? false
           :loglevel :debug
           :dbtype "postgresql"
+          :dbport 5433
           :host "localhost"
           :dbname "datahike"
           :user "datahike"

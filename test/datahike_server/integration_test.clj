@@ -13,6 +13,7 @@
                                     :dbname "datahike"
                                     :user "datahike"
                                     :password "password"
+                                    :port 5433
                                     :table "default"}
                             :schema-flexibility :write
                             :keep-history? true
@@ -41,6 +42,7 @@
             :dbname "datahike"
             :user "datahike"
             :password "password"
+            :dbport 5433
             ;; customization start
             :token :neverusethisaspassword}})
 

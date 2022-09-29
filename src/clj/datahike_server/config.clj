@@ -19,6 +19,7 @@
 
 ;; customization start
 (s/def ::dbtype string?)
+(s/def ::dbport integer?)
 (s/def ::jdbc-url (s/nilable string?))
 (s/def ::host string?)
 (s/def ::dbname string?)
@@ -29,7 +30,7 @@
 
 
 (s/def ::server-config (s/keys :req-un [::port ::loglevel ::dbtype ::host ::dbname ::user ::password ::max-body]
-                               :opt-un [::dev-mode ::token ::join? ::persistent-databases ::jdbc-url]))
+                               :opt-un [::dev-mode ::token ::join? ::persistent-databases ::jdbc-url ::dbport]))
 
 ;; customization end
 
@@ -53,6 +54,7 @@
                         :loglevel (keyword (:datahike-jdbc-log-level env :warn))
                         :dbtype (:datahike-jdbc-dbtype env "postgresql")
                         :host (:datahike-jdbc-host env "localhost")
+                        :dbport (:datahike-jdbc-dbport env 5432)
                         :jdbc-url (:datahike-jdbc-url env)
                         :dbname (:datahike-jdbc-dbname env "datahike")
                         :user (:datahike-jdbc-user env "datahike")

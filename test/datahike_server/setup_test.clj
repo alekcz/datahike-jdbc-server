@@ -11,7 +11,7 @@
                              :stop (fn [] {})}})
   (db/cleanup-databases)
   (is (= {:databases
-          [{:store {:backend :jdbc :dbname "datahike" :table "sessions" :dbtype "postgresql" :host "localhost" :user "datahike" :password "password"},
+          [{:store {:backend :jdbc :dbname "datahike" :table "sessions" :dbtype "postgresql" :host "localhost" :port 5433 :user "datahike" :password "password"},
             :keep-history? false,
             :schema-flexibility :read,
             :name "sessions",
@@ -19,7 +19,7 @@
             :attribute-refs? false,
             :cache-size 100000,
             :index-config {:index-b-factor 17, :index-data-node-size 300, :index-log-size 283}}
-           {:store {:backend :jdbc :dbname "datahike" :table "users" :dbtype "postgresql" :host "localhost" :user "datahike" :password "password"},
+           {:store {:backend :jdbc :dbname "datahike" :table "users" :dbtype "postgresql" :host "localhost" :port 5433 :user "datahike" :password "password"},
             :keep-history? true,
             :schema-flexibility :write,
             :name "users",
