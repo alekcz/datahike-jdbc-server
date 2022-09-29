@@ -54,7 +54,7 @@
                         :loglevel (keyword (:datahike-jdbc-log-level env :warn))
                         :dbtype (:datahike-jdbc-dbtype env "postgresql")
                         :host (:datahike-jdbc-host env "localhost")
-                        :dbport (:datahike-jdbc-dbport env 5432)
+                        :dbport (int-from-env :datahike-jdbc-dbport 5432)
                         :jdbc-url (:datahike-jdbc-url env)
                         :dbname (:datahike-jdbc-dbname env "datahike")
                         :user (:datahike-jdbc-user env "datahike")
