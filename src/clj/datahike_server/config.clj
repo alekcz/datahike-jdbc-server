@@ -3,7 +3,8 @@
             [taoensso.timbre :as log]
             [mount.core :refer [defstate]]
             [environ.core :refer [env]]
-            [datahike.config :refer [int-from-env bool-from-env]]))
+            [datahike.config :refer [int-from-env bool-from-env]]
+            [clojure.edn :as edn]))
 
 (s/fdef load-config-file
   :args (s/cat :config-file string?)
@@ -20,17 +21,17 @@
 ;; customization start
 (s/def ::dbtype string?)
 (s/def ::dbport int?)
-(s/def ::jdbc-url (s/nilable string?))
+(s/def ::jdbcUrl (s/nilable string?))
 (s/def ::host string?)
 (s/def ::dbname string?)
 (s/def ::user string?)
 (s/def ::password string?)
 (s/def ::max-body int?)
 (s/def ::persistent-databases string?)
-
+(s/def ::jdbc-options (s/nilable map?))
 
 (s/def ::server-config (s/keys :req-un [::port ::loglevel ::dbtype ::host ::dbname ::user ::password ::max-body]
-                               :opt-un [::dev-mode ::token ::join? ::persistent-databases ::jdbc-url ::dbport]))
+                               :opt-un [::dev-mode ::token ::join? ::persistent-databases ::jdbcUrl ::dbport ::jdbc-options]))
 
 ;; customization end
 
@@ -55,7 +56,8 @@
                         :dbtype (:datahike-jdbc-dbtype env "postgresql")
                         :host (:datahike-jdbc-host env "localhost")
                         :dbport (int-from-env :datahike-jdbc-dbport 5432)
-                        :jdbc-url (:datahike-jdbc-url env)
+                        :jdbcUrl (:datahike-jdbc-url env)
+                        :jdbc-options (-> env :datahike-jdbc-options (or "{}") edn/read-string)
                         :dbname (:datahike-jdbc-dbname env "datahike")
                         :user (:datahike-jdbc-user env "datahike")
                         :password (:datahike-jdbc-password env "password")

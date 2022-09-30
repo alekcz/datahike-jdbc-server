@@ -42,7 +42,7 @@
             :dbname "datahike"
             :user "datahike"
             :password "password"
-            :dbport 5433
+            :jdbc-options {:port 5433}
             ;; customization start
             :token :neverusethisaspassword}})
 

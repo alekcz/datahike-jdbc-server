@@ -9,7 +9,7 @@
         io.grpc/grpc-stub                                             {:mvn/version "1.49.0"}
         clj-commons/iapetos                                           {:mvn/version "0.1.12"}
         io.prometheus/simpleclient_hotspot                            {:mvn/version "0.16.0"}
-        org.alekcz/datahike-jdbc                                      {:mvn/version "0.5.1510-20220929.103729-14"}
+        org.alekcz/datahike-jdbc                                      {:mvn/version "0.5.1510-20220930.015611-15"}
         http-kit/http-kit       {:mvn/version "2.6.0"}
         ;; customization end     
         buddy/buddy-auth        {:mvn/version "3.0.323"}
