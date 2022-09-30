@@ -43,7 +43,7 @@
             :user "datahike"
             :password "password"
             :jdbc-options {:port 5433}
-            ;; customization start
+            ;; customization end
             :token :neverusethisaspassword}})
 
 (def ^:private test-cfg-headers

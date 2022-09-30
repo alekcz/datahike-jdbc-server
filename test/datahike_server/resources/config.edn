@@ -10,9 +10,9 @@
           :join? false
           :loglevel :debug
           :dbtype "postgresql"
-          :dbport 5433
           :host "localhost"
           :dbname "datahike"
           :user "datahike"
           :password "password"
+          :jdbc-options {:port 5433}
           :token :neverusethisaspassword}}

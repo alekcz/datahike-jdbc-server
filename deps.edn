@@ -9,7 +9,7 @@
         io.grpc/grpc-stub                                             {:mvn/version "1.49.0"}
         clj-commons/iapetos                                           {:mvn/version "0.1.12"}
         io.prometheus/simpleclient_hotspot                            {:mvn/version "0.16.0"}
-        org.alekcz/datahike-jdbc                                      {:mvn/version "0.5.1510-20220930.015611-15"}
+        org.alekcz/datahike-jdbc                                      {:mvn/version "0.5.1510-20220930.180134-16"}
         http-kit/http-kit       {:mvn/version "2.6.0"}
         ;; customization end     
         buddy/buddy-auth        {:mvn/version "3.0.323"}
@@ -32,7 +32,8 @@
                     :exec-fn     kaocha.runner/exec-fn
                     :exec-args   {}}
 
-           :run {:main-opts   ["-m" "datahike-server.core"]}
+           :run {:main-opts   ["-m" "datahike-server.core"]
+                 :jvm-opts ["-Xmx1684m" "-Xms768m"]}
 
            :dev {:extra-paths ["env/dev"]
                  :extra-deps  {org.clojure/tools.namespace {:mvn/version "1.2.0"}
