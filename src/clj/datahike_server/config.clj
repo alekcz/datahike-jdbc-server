@@ -21,7 +21,7 @@
 ;; customization start
 (s/def ::dbtype string?)
 (s/def ::dbport int?)
-(s/def ::jdbcUrl (s/nilable string?))
+(s/def ::jdbc-url (s/nilable string?))
 (s/def ::host string?)
 (s/def ::dbname string?)
 (s/def ::user string?)
@@ -31,7 +31,7 @@
 (s/def ::jdbc-options (s/nilable map?))
 
 (s/def ::server-config (s/keys :req-un [::port ::loglevel ::dbtype ::host ::dbname ::user ::password ::max-body]
-                               :opt-un [::dev-mode ::token ::join? ::persistent-databases ::jdbcUrl ::dbport ::jdbc-options]))
+                               :opt-un [::dev-mode ::token ::join? ::persistent-databases ::jdbc-url ::dbport ::jdbc-options]))
 
 ;; customization end
 
@@ -56,7 +56,7 @@
                         :dbtype (:datahike-jdbc-dbtype env "postgresql")
                         :host (:datahike-jdbc-host env "localhost")
                         :dbport (int-from-env :datahike-jdbc-dbport 5432)
-                        :jdbcUrl (:datahike-jdbc-url env)
+                        :jdbc-url (:datahike-jdbc-url env)
                         :jdbc-options (-> env :datahike-jdbc-options (or "{}") edn/read-string)
                         :dbname (:datahike-jdbc-dbname env "datahike")
                         :user (:datahike-jdbc-user env "datahike")

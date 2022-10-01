@@ -34,7 +34,7 @@
                   (assoc :store  (merge
                                   {:backend :jdbc 
                                    :dbtype (-> server :dbtype)
-                                   :jdbcUrl (-> server :jdbcUrl)
+                                   :jdbcUrl (-> server :jdbc-url)
                                    :host (-> server :host)
                                    :port (-> server :dbport)
                                    :user (-> server :user)
@@ -51,7 +51,7 @@
                         {:store  (merge
                                     {:backend :jdbc 
                                      :dbtype (-> config :server :dbtype)
-                                     :jdbcUrl (-> config :server :jdbcUrl)
+                                     :jdbcUrl (-> config :server :jdbc-url)
                                      :host (-> config :server :host)
                                      :port (-> config :server :dbport)
                                      :user (-> config :server :user)
@@ -70,7 +70,7 @@
   (let [cfg' { :store (merge
                       {:backend :jdbc 
                        :dbtype (-> config :server :dbtype)
-                       :jdbcUrl (-> config :server :jdbcUrl)
+                       :jdbcUrl (-> config :server :jdbc-url)
                        :host (-> config :server :host)
                        :port (-> config :server :dbport)
                        :user (-> config :server :user)
@@ -95,7 +95,7 @@
   (let [cfg' { :store  (merge
                         {:backend :jdbc 
                          :dbtype (-> config :server :dbtype)
-                         :jdbcUrl (-> config :server :jdbcUrl)
+                         :jdbcUrl (-> config :server :jdbc-url)
                          :host (-> config :server :host)
                          :port (-> config :server :dbport)
                          :user (-> config :server :user)
