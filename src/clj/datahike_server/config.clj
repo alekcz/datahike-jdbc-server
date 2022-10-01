@@ -30,8 +30,13 @@
 (s/def ::persistent-databases string?)
 (s/def ::jdbc-options (s/nilable map?))
 
-(s/def ::server-config (s/keys :req-un [::port ::loglevel ::dbtype ::host ::dbname ::user ::password ::max-body]
-                               :opt-un [::dev-mode ::token ::join? ::persistent-databases ::jdbc-url ::dbport ::jdbc-options]))
+(s/def ::server-config-map (s/keys  :req-un [::port ::loglevel ::cache-size ::dbtype ::host ::dbname ::user ::password]
+                                    :opt-un [::dev-mode ::token ::join? ::persistent-databases ::jdbc-url ::dbport ::jdbc-options ::max-body]))
+
+(s/def ::server-config-url (s/keys  :req-un [::port ::loglevel ::jdbc-url ::cache-size]
+                                    :opt-un [::user ::password ::dev-mode ::token ::join? ::persistent-databases ::jdbc-url ::dbport ::jdbc-options ::max-body]))
+
+(s/def ::server-config (s/or :db-spec ::server-config-map :jdbc-url ::server-config-url))
 
 ;; customization end
 
@@ -53,18 +58,19 @@
                        ;; customization start
                        {:port (int-from-env :datahike-jdbc-port (int-from-env :port 4000))
                         :loglevel (keyword (:datahike-jdbc-log-level env :warn))
-                        :dbtype (:datahike-jdbc-dbtype env "postgresql")
+                        :cache-size (int-from-env :datahike-jdbc-cache 100000)
+                        :dev-mode (bool-from-env :datahike-jdbc-dev-mode true)}
+                      (if (-> arg-config :server (contains? :jdbc-url))   
+                       {:jdbc-url (:datahike-jdbc-url env)}
+                       {:dbtype (:datahike-jdbc-dbtype env "postgresql")
                         :host (:datahike-jdbc-host env "localhost")
                         :dbport (int-from-env :datahike-jdbc-dbport 5432)
-                        :jdbc-url (:datahike-jdbc-url env)
-                        :jdbc-options (-> env :datahike-jdbc-options (or "{}") edn/read-string)
                         :dbname (:datahike-jdbc-dbname env "datahike")
                         :user (:datahike-jdbc-user env "datahike")
-                        :password (:datahike-jdbc-password env "password")
-                        :persistent-databases (:datahike-jdbc-persistent-databases env "")
-                        :cache-size (int-from-env :datahike-jdbc-cache 100000)
-                        :dev-mode (bool-from-env :datahike-jdbc-dev-mode true)
-                        :max-body (* (int-from-env :datahike-jdbc-max-body 32) 1024 1024)}
+                        :password (:datahike-jdbc-password env "password")})
+                       {:persistent-databases (:datahike-jdbc-persistent-databases env "")
+                        :max-body (* (int-from-env :datahike-jdbc-max-body 16) 1024 1024)
+                        :jdbc-options (-> env :datahike-jdbc-options (or "{}") edn/read-string)}
                        ;; customization end
                        (:server arg-config))
                       ;; customization start                                             
