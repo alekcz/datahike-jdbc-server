@@ -54,13 +54,15 @@
   (log/debug "Loading config")
   (let [arg-config (cond-> config
                      (string? config) load-config-file)
-        server-config (merge
                        ;; customization start
+        jdbc-url? (or (-> arg-config :server (contains? :jdbc-url))  
+                      (:datahike-jdbc-url env))
+        server-config (merge
                        {:port (int-from-env :datahike-jdbc-port (int-from-env :port 4000))
                         :loglevel (keyword (:datahike-jdbc-log-level env :warn))
                         :cache-size (int-from-env :datahike-jdbc-cache 100000)
                         :dev-mode (bool-from-env :datahike-jdbc-dev-mode true)}
-                      (if (-> arg-config :server (contains? :jdbc-url))   
+                      (if jdbc-url?   
                        {:jdbc-url (:datahike-jdbc-url env)}
                        {:dbtype (:datahike-jdbc-dbtype env "postgresql")
                         :host (:datahike-jdbc-host env "localhost")
