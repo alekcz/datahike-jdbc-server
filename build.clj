@@ -65,6 +65,10 @@
   (b/uber {:class-dir class-dir
            :uber-file uber-path
            :basis basis
+           :main 'datahike-server.core})
+  (b/uber {:class-dir class-dir
+           :uber-file "target/datahike-jdbc-server.jar"
+           :basis basis
            :main 'datahike-server.core}))
 
 (defn deploy
