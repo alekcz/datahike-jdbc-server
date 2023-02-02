@@ -1,0 +1,1 @@
+web: clojure -M:run
