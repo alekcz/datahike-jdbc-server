@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
 clojure -T:build uber
+#use https://github.com/andersmurphy/heroku-buildpack-clojure-tools as build pack
