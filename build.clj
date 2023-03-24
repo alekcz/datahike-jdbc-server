@@ -121,7 +121,7 @@
   [{:keys [docker-login docker-password]}]
   (if-not (and docker-login docker-password)
     (println "Docker credentials missing.")
-    (let [container-builder (-> (Jib/from "gcr.io/distroless/java17-debian11")
+    (let [container-builder (-> (Jib/from "gcr.io/distroless/java:11@sha256:1d377403a44d32779be00fceec4803be0301c7f4a62b72d7307dc411860c24c3")
                                 (.addLayer [(Paths/get uber-path (into-array String[]))] (AbsoluteUnixPath/get "/"))
                                 ;; customization start
                                 (.setProgramArguments [(format "/%s" uber-file)])
