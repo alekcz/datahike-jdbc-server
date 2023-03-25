@@ -59,6 +59,5 @@
                                 babashka/babashka.curl          {:mvn/version "0.1.2"}
                                 babashka/fs                     {:mvn/version "0.1.6"}
                                 cheshire/cheshire               {:mvn/version "5.11.0"}
-                                com.google.cloud.tools/jib-core {:mvn/version "0.21.0"}
-                                mysql/mysql-connector-java     {:mvn/version "8.0.20"}}
+                                com.google.cloud.tools/jib-core {:mvn/version "0.21.0"}}
                    :ns-default build}}}
