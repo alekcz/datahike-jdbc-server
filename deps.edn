@@ -10,7 +10,7 @@
         clj-commons/iapetos                                           {:mvn/version "0.1.12"}
         io.prometheus/simpleclient_hotspot                            {:mvn/version "0.16.0"}
         org.alekcz/datahike-jdbc                                      {:mvn/version "0.5.1510-20230325.090543-20"}
-        http-kit/http-kit       {:mvn/version "2.6.0"}
+        http-kit/http-kit       {:mvn/version "2.7.0-beta3"}
         ;; customization end     
         buddy/buddy-auth        {:mvn/version "3.0.323"}
         ring/ring-core          {:mvn/version "1.9.5"}

@@ -61,7 +61,9 @@
                        {:port (int-from-env :datahike-jdbc-port (int-from-env :port 4000))
                         :loglevel (keyword (:datahike-jdbc-log-level env :warn))
                         :cache-size (int-from-env :datahike-jdbc-cache 100000)
-                        :dev-mode (bool-from-env :datahike-jdbc-dev-mode true)}
+                        :dev-mode (bool-from-env :datahike-jdbc-dev-mode true)
+                        :thread (int-from-env :datahike-jdbc-threads 16)
+                        :queue-size (int-from-env :datahike-jdbc-queue-size 204800)}
                       (if jdbc-url?   
                        {:jdbc-url (:datahike-jdbc-url env)}
                        {:dbtype (:datahike-jdbc-dbtype env "postgresql")
@@ -71,7 +73,7 @@
                         :user (:datahike-jdbc-user env "datahike")
                         :password (:datahike-jdbc-password env "password")})
                        {:persistent-databases (:datahike-jdbc-persistent-databases env "")
-                        :max-body (* (int-from-env :datahike-jdbc-max-body 16) 1024 1024)
+                        :max-body (* (int-from-env :datahike-jdbc-max-body 32) 1024 1024)
                         :jdbc-options (-> env :datahike-jdbc-options (or "{}") edn/read-string)}
                        ;; customization end
                        (:server arg-config))

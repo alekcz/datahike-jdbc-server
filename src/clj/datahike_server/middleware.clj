@@ -104,7 +104,7 @@
         "/pull"(prometheus/observe metrics/registry :app/dh-pull-ms duration)
         "/pull-many" (prometheus/observe metrics/registry :app/dh-pull-many-ms duration)
         "/transact" (prometheus/observe metrics/registry :app/dh-transact-ms duration))
-      (log/info "Time elapsed: " (- (System/currentTimeMillis) start) " ms")
+      (log/info "Time elapsed for " (:uri request) ": " (- (System/currentTimeMillis) start) " ms")
       response)))
 
 (defn- xf-key [k]

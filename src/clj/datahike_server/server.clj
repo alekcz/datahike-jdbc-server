@@ -282,6 +282,7 @@
 ;; customization start 
        
 (defn start-server [config]  
+    (log/debug (:server config))
     (run-server app (merge {:legacy-return-value? false} (:server config))))
 
        
