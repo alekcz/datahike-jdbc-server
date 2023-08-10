@@ -32,7 +32,8 @@
 (s/def ::entity any?)
 (s/def ::tx-data (s/coll-of ::entity))
 (s/def ::tx-meta (s/coll-of ::entity))
-(s/def ::transactions (s/keys :req-un [::tx-data] :opt-un [::tx-meta]))
+(s/def ::silent boolean?)
+(s/def ::transactions (s/keys :req-un [::tx-data] :opt-un [::tx-meta ::silent]))
 
 (s/def ::query (s/coll-of any?))
 (s/def ::args (s/coll-of any?))
@@ -247,7 +248,8 @@
    ; :exception pretty/exception
    :data      {:coercion   reitit.coercion.spec/coercion
                :muuntaja   m/instance
-               :middleware [swagger/swagger-feature
+               :middleware [middleware/time-api-call
+                            swagger/swagger-feature
                             middleware/encode-plain-value
                             parameters/parameters-middleware
                             muuntaja/format-middleware

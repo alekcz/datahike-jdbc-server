@@ -101,9 +101,10 @@
           duration (- (System/currentTimeMillis) start)]
       (case (:uri request)
         "/q" (prometheus/observe metrics/registry :app/dh-query-ms duration)
-        "/pull"(prometheus/observe metrics/registry :app/dh-pull-ms duration)
+        "/pull" (prometheus/observe metrics/registry :app/dh-pull-ms duration)
         "/pull-many" (prometheus/observe metrics/registry :app/dh-pull-many-ms duration)
-        "/transact" (prometheus/observe metrics/registry :app/dh-transact-ms duration))
+        "/transact" (prometheus/observe metrics/registry :app/dh-transact-ms duration)
+        nil)
       (log/info "Time elapsed for " (:uri request) ": " (- (System/currentTimeMillis) start) " ms")
       response)))
 

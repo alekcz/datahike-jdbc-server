@@ -26,13 +26,15 @@
       (update :tx-data #(mapv (comp vec seq) %))
       (update :tx-meta #(mapv (comp vec seq) %))))
 
-(defn transact [{:keys [conn content-type] {{:keys [tx-data tx-meta]} :body} :parameters}]
+(defn transact [{:keys [conn content-type] {{:keys [tx-data tx-meta silent]} :body} :parameters}]
   (let [args {:tx-data (if (= content-type ju/json-fmt) (ju/xf-data-for-tx tx-data @conn) tx-data)
               :tx-meta (if (= content-type ju/json-fmt) (ju/xf-data-for-tx tx-meta @conn) tx-meta)}
         start (System/currentTimeMillis)
         _ (log/info "Transacting with arguments: " args)
         result (d/transact conn args)]
-    (-> result
+    (-> (if silent 
+          (assoc result :tx-data (-> result :tx-data count)) 
+          result)
         cleanup-result
         success)))
 
