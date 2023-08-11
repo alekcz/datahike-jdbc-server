@@ -33,7 +33,7 @@
         _ (log/info "Transacting with arguments: " args)
         result (d/transact conn args)]
     (-> (if silent 
-          (assoc result :tx-data (-> result :tx-data count)) 
+          (assoc result :tx-data []) 
           result)
         cleanup-result
         success)))
